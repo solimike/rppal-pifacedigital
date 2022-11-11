@@ -1,13 +1,18 @@
 [package]
 name = "rppal-pfd"
 version = "0.0.1"
-authors = ["Mike Walmsley <mike@rivermix.uk>"]
+authors = ["Mike Walmsley"]
 description = """PiFace Digital driver
 
 An experimental driver for the PiFace Digital I/O expander for the 
 Raspberry Pi. Requires RPPAL for the GPIO and SPI interfaces.
 """
 license = "MIT"
+readme = "README.md"
+homepage = "https://docs.rs/rppal-pfd/"
+repository = "https://github.com/solimike/rppal-pifacedigital/"
+keywords = ["PiFaceDigital", "Raspberry", "Raspberry_Pi", "MCP23S17", "RPPAL"]
+categories = ["hardware-support", "embedded"]
 edition = "2021"
 
 # Use the V2 resolver to avoid inappropriate merging of features.
@@ -15,9 +20,9 @@ resolver = "2"
 
 [dependencies]
 log = "0.4.17"
-rppal-mcp23s17 = { path = "../rppal-mcp23s17" }
+rppal-mcp23s17 = "0.0.1"
 rppal = "0.14.0"
 thiserror = "1.0.37"
 
 [dev-dependencies]
-rppal-mcp23s17 = { path = "../rppal-mcp23s17", features = ["mockspi"] }
+rppal-mcp23s17 = { version = "0.0.1", features = ["mockspi"] }

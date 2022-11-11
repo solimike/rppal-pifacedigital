@@ -59,6 +59,8 @@ dependencies = [
 [[package]]
 name = "rppal-mcp23s17"
 version = "0.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c82ce7d84b0641b71cdaaf6b695ed2824236c5a998c8e644c622cae5c65a5936"
 dependencies = [
  "bitflags",
  "log",
