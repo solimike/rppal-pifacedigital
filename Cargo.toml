@@ -1,0 +1,18 @@
+[package]
+name = "pifacedigital"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+log = "0.4.17"
+rppal-mcp23s17 = { path = "../../rppal-mcp23s17" }
+rppal = "0.14.0"
+thiserror = "1.0.37"
+
+[dev-dependencies]
+rppal-mcp23s17 = { path = "../../rppal-mcp23s17", features = ["mockspi"] }

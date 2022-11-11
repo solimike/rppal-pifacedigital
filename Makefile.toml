@@ -1,0 +1,58 @@
+# Makefile for cargo-make
+#
+# In general, cargo-make has reasonable default tasks for this project. The tasks 
+# defined in this makefile are generally a catalogue of tasks that are known to work 
+# plus some tweaks where necessary. The absence of a target here doesn't necessarily
+# mean it won't work and be appropriate.
+
+[env]
+TARGET = "arm-unknown-linux-gnueabihf"      # First generation Raspberry Pi.
+
+# Note that the default "build" task enables all features so will use the "mockspi"
+# feature. This is probably what you want unless you're actually compiling natively on
+# Raspberry Pi hardware. If that's what you really want, uncomment the args override.
+[tasks.build]
+# args = ["build"]
+
+[tasks.test]
+
+[tasks.build-flow]
+
+# There is a potential problem with the RaspberryPi targets not being consistent because
+# of an interaction between build scripts (build.rs) and the cross-compilation 
+# environment.  Currently (as of cross v0.2.4) the cross compilation environment is
+# a rather old Ubuntu 16.04 container. If a local build (on the PC host) is run before 
+# making one of these RaspberryPi targets, the cross build will find an existing
+# build script in the target directory left over from the local build.  In theory that's
+# probably OK because the build script isn't expected to run on the target machine just
+# in the cross-compilation container, which is still an x86 Linux.  However, the build
+# script may depend on a glibc version too far ahead of the version in the container to
+# be compatible and therefore fail to run.  
+#
+# Two workarounds have some merit]
+#   1) Build the RaspberryPi targets before the local host targets because the build 
+#      script compiled in the cross-compilation container will work with the more 
+#      recent glibc on the host machine.
+#   2) Force a clean before running the RaspberryPi targets to remove the incompatible
+#      build script.
+#
+# This looks like being a short-term problem because the next version of cross should
+# bump the base version of Ubuntu to 20.04.
+[tasks.rpi]
+command = "cross"
+args = ["build", "--target", "${TARGET}"]
+
+[tasks.build-rpi]
+command = "cross" 
+args = ["build", "--release", "--target", "${TARGET}"]
+
+[tasks.test-rpi]
+command = "cross"
+args = ["test", "--target", "${TARGET}"]
+
+# Generate the changelog
+[tasks.changelog]
+command = "git"
+args = ["cliff", 
+		"--tag", "v${CARGO_MAKE_CRATE_VERSION}", 
+		"--output", "CHANGELOG.md"]
