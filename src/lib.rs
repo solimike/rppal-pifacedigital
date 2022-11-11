@@ -32,7 +32,7 @@
 //!
 //! # Concurrency Warning
 //!
-//! Note that the [`rppal_mcp23s17`] contained in the [`PiFaceDigital`] is
+//! Note that the `rppal_mcp23s17` contained in the [`PiFaceDigital`] is
 //! [`!Send`][std::marker::Send] so that the device can only be used within the
 //! context of a single thread. However, there is nothing to stop separate instances on
 //! separate threads accessing the same MCP23S17 device.  However, when it comes to the
@@ -69,7 +69,7 @@ use rppal::gpio::{self, Gpio, Trigger};
 use rppal_mcp23s17::{Mcp23s17, RegisterAddress, IOCON};
 use thiserror::Error;
 
-/// Re-export of [`rppal_mcp23s17`] crate APIs which we use on this crate's APIs.
+/// Re-export of `rppal_mcp23s17` crate APIs which we use on this crate's APIs.
 pub use rppal_mcp23s17::{ChipSelect, InterruptMode, Level, OutputPin, SpiBus, SpiMode};
 
 //--------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ impl fmt::Display for HardwareAddress {
 /// Errors that operation of the PiFace Digital can raise.
 #[derive(Error, Debug)]
 pub enum PiFaceDigitalError {
-    /// Errors from the [rppal_mcp23s17][rppal_mcp23s17::Mcp23s17].
+    /// Errors from the `rppal_mcp23s17::Mcp23s17`.
     #[error("MCP23S17 error")]
     Mcp23s17Error {
         /// Underlying error source.
@@ -171,7 +171,7 @@ pub type Result<T> = result::Result<T, PiFaceDigitalError>;
 
 /// An input pin.
 ///
-/// The [`InputPin`] exposes the capabilities of the underlying [`rppal_mcp23s17::InputPin`]
+/// The [`InputPin`] exposes the capabilities of the underlying `rppal_mcp23s17::InputPin`
 /// with the addition of interrupt handling.
 ///
 /// # Example usage
@@ -221,7 +221,7 @@ pub struct PiFaceDigitalState {
 /// Represents an instance of the PiFace Digital I/O expander for the Raspberry Pi.
 ///
 /// This is the key entrypoint into the driver. This driver is a thin wrapper around
-/// the [rppal_mcp23s17 driver][rppal_mcp23s17] that is responsible for ensuring that the I/O
+/// the `rppal_mcp23s17` driver that is responsible for ensuring that the I/O
 /// expander chip is configured in a manner compatible with the capabilities of the
 /// PiFace Digital hardware.
 ///
@@ -441,7 +441,7 @@ impl PiFaceDigital {
     ///
     /// If the pin is already in use, or the pin number `pin` is greater than 7 then
     /// `get_input_pin()` returns `Err(`[`PiFaceDigitalError::Mcp23s17Error`]`)`
-    /// with the source error type of [`rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`].
+    /// with the source error type of `rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`.
     ///
     /// After the [`InputPin`] goes out of scope, it can be retrieved again through
     /// another `get_input_pin()` call.
@@ -467,7 +467,7 @@ impl PiFaceDigital {
     ///
     /// If the pin is already in use, or the pin number `pin` is greater than 7 then
     /// `get_input_pin()` returns `Err(`[`PiFaceDigitalError::Mcp23s17Error`]`)`
-    /// with the source error type of [`rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`].
+    /// with the source error type of `rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`.
     ///
     /// After the [`InputPin`] goes out of scope, it can be retrieved again through
     /// another `get_input_pin()` call.
@@ -492,7 +492,7 @@ impl PiFaceDigital {
     ///
     /// If the pin is already in use, or the pin number `pin` is greater than 7 then
     /// `get_input_pin()` returns `Err(`[`PiFaceDigitalError::Mcp23s17Error`]`)`
-    /// with the source error type of [`rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`].
+    /// with the source error type of `rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`.
     ///
     /// After the [`OutputPin`] goes out of scope, it can be retrieved again through
     /// another `get_output_pin()` call.
@@ -511,7 +511,7 @@ impl PiFaceDigital {
     ///
     /// If the pin is already in use, or the pin number `pin` is greater than 7 then
     /// `get_input_pin()` returns `Err(`[`PiFaceDigitalError::Mcp23s17Error`]`)`
-    /// with the source error type of [`rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`].
+    /// with the source error type of `rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`.
     ///
     /// After the [`OutputPin`] goes out of scope, it can be retrieved again through
     /// another `get_output_pin()` call.
@@ -530,7 +530,7 @@ impl PiFaceDigital {
     ///
     /// If the pin is already in use, or the pin number `pin` is greater than 7 then
     /// `get_input_pin()` returns `Err(`[`PiFaceDigitalError::Mcp23s17Error`]`)`
-    /// with the source error type of [`rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`].
+    /// with the source error type of `rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`.
     ///
     /// After the [`OutputPin`] goes out of scope, it can be retrieved again through
     /// another `get_output_pin()` call.
