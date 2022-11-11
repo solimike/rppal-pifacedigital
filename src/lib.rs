@@ -7,7 +7,7 @@
 //! # Example usage
 //!
 //! ```no_run
-//! use pifacedigital::{ChipSelect, HardwareAddress, Level, PiFaceDigital, SpiBus, SpiMode};
+//! use rppal_pfd::{ChipSelect, HardwareAddress, Level, PiFaceDigital, SpiBus, SpiMode};
 //!
 //! // Create an instance of the driver for the device with the hardware address
 //! // (A1, A0) of 0b00 on SPI bus 0 clocked at 100kHz. The address bits are set using
@@ -32,7 +32,7 @@
 //!
 //! # Concurrency Warning
 //!
-//! Note that the [`Mcp23s17`] contained in the [`PiFaceDigital`] is
+//! Note that the [`rppal_mcp23s17`] contained in the [`PiFaceDigital`] is
 //! [`!Send`][std::marker::Send] so that the device can only be used within the
 //! context of a single thread. However, there is nothing to stop separate instances on
 //! separate threads accessing the same MCP23S17 device.  However, when it comes to the
@@ -134,7 +134,7 @@ impl fmt::Display for HardwareAddress {
 /// Errors that operation of the PiFace Digital can raise.
 #[derive(Error, Debug)]
 pub enum PiFaceDigitalError {
-    /// Errors from the [MCP23S17][mcp23s17::Mcp23s17].
+    /// Errors from the [rppal_mcp23s17][rppal_mcp23s17::Mcp23s17].
     #[error("MCP23S17 error")]
     Mcp23s17Error {
         /// Underlying error source.
@@ -171,13 +171,13 @@ pub type Result<T> = result::Result<T, PiFaceDigitalError>;
 
 /// An input pin.
 ///
-/// The [`InputPin`] exposes the capabilities of the underlying [`mcp23s17::InputPin`]
+/// The [`InputPin`] exposes the capabilities of the underlying [`rppal_mcp23s17::InputPin`]
 /// with the addition of interrupt handling.
 ///
 /// # Example usage
 ///
 /// ```no_run
-/// # use pifacedigital::{ChipSelect, HardwareAddress, Level, PiFaceDigital, SpiBus, SpiMode};
+/// # use rppal_pfd::{ChipSelect, HardwareAddress, Level, PiFaceDigital, SpiBus, SpiMode};
 /// #
 /// # // Create an instance of the driver for the device with the hardware address
 /// # // (A1, A0) of 0b00 on SPI bus 0 clocked at 100kHz. The address bits are set using
@@ -221,7 +221,7 @@ pub struct PiFaceDigitalState {
 /// Represents an instance of the PiFace Digital I/O expander for the Raspberry Pi.
 ///
 /// This is the key entrypoint into the driver. This driver is a thin wrapper around
-/// the [MCP23S17 driver][mcp23s17] that is responsible for ensuring that the I/O
+/// the [rppal_mcp23s17 driver][rppal_mcp23s17] that is responsible for ensuring that the I/O
 /// expander chip is configured in a manner compatible with the capabilities of the
 /// PiFace Digital hardware.
 ///
@@ -241,7 +241,7 @@ pub struct PiFaceDigitalState {
 /// an [`InputPin`] or [`OutputPin`].
 ///
 /// ```no_run
-/// use pifacedigital::{ChipSelect, HardwareAddress, PiFaceDigital, SpiBus, SpiMode};
+/// use rppal_pfd::{ChipSelect, HardwareAddress, PiFaceDigital, SpiBus, SpiMode};
 ///
 /// // Create an instance of the driver for the device with the hardware address
 /// // (A1, A0) of 0b00 on SPI bus 0 clocked at 100kHz. The address bits are set using
@@ -441,7 +441,7 @@ impl PiFaceDigital {
     ///
     /// If the pin is already in use, or the pin number `pin` is greater than 7 then
     /// `get_input_pin()` returns `Err(`[`PiFaceDigitalError::Mcp23s17Error`]`)`
-    /// with the source error type of [`mcp23s17::Mcp23s17Error::PinNotAvailable`].
+    /// with the source error type of [`rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`].
     ///
     /// After the [`InputPin`] goes out of scope, it can be retrieved again through
     /// another `get_input_pin()` call.
@@ -467,7 +467,7 @@ impl PiFaceDigital {
     ///
     /// If the pin is already in use, or the pin number `pin` is greater than 7 then
     /// `get_input_pin()` returns `Err(`[`PiFaceDigitalError::Mcp23s17Error`]`)`
-    /// with the source error type of [`mcp23s17::Mcp23s17Error::PinNotAvailable`].
+    /// with the source error type of [`rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`].
     ///
     /// After the [`InputPin`] goes out of scope, it can be retrieved again through
     /// another `get_input_pin()` call.
@@ -492,7 +492,7 @@ impl PiFaceDigital {
     ///
     /// If the pin is already in use, or the pin number `pin` is greater than 7 then
     /// `get_input_pin()` returns `Err(`[`PiFaceDigitalError::Mcp23s17Error`]`)`
-    /// with the source error type of [`mcp23s17::Mcp23s17Error::PinNotAvailable`].
+    /// with the source error type of [`rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`].
     ///
     /// After the [`OutputPin`] goes out of scope, it can be retrieved again through
     /// another `get_output_pin()` call.
@@ -511,7 +511,7 @@ impl PiFaceDigital {
     ///
     /// If the pin is already in use, or the pin number `pin` is greater than 7 then
     /// `get_input_pin()` returns `Err(`[`PiFaceDigitalError::Mcp23s17Error`]`)`
-    /// with the source error type of [`mcp23s17::Mcp23s17Error::PinNotAvailable`].
+    /// with the source error type of [`rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`].
     ///
     /// After the [`OutputPin`] goes out of scope, it can be retrieved again through
     /// another `get_output_pin()` call.
@@ -530,7 +530,7 @@ impl PiFaceDigital {
     ///
     /// If the pin is already in use, or the pin number `pin` is greater than 7 then
     /// `get_input_pin()` returns `Err(`[`PiFaceDigitalError::Mcp23s17Error`]`)`
-    /// with the source error type of [`mcp23s17::Mcp23s17Error::PinNotAvailable`].
+    /// with the source error type of [`rppal_mcp23s17::Mcp23s17Error::PinNotAvailable`].
     ///
     /// After the [`OutputPin`] goes out of scope, it can be retrieved again through
     /// another `get_output_pin()` call.
@@ -560,7 +560,7 @@ impl PiFaceDigital {
     /// # Example usage
     ///
     /// ```no_run
-    /// use pifacedigital::{ChipSelect, HardwareAddress, InterruptMode, PiFaceDigital, SpiBus, SpiMode};
+    /// use rppal_pfd::{ChipSelect, HardwareAddress, InterruptMode, PiFaceDigital, SpiBus, SpiMode};
     /// use std::time::Duration;
     ///
     /// // Create an instance of the driver for the device with the hardware address
@@ -784,7 +784,7 @@ impl InputPin {
     /// ## Example usage
     ///
     /// ```no_run
-    /// use pifacedigital::{ChipSelect, HardwareAddress, InterruptMode, PiFaceDigital, SpiBus, SpiMode};
+    /// use rppal_pfd::{ChipSelect, HardwareAddress, InterruptMode, PiFaceDigital, SpiBus, SpiMode};
     /// use std::time::Duration;
     ///
     ///  let mut pfd = PiFaceDigital::new(

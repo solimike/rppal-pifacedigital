@@ -1,18 +1,23 @@
 [package]
-name = "pifacedigital"
-version.workspace = true
-edition.workspace = true
-authors.workspace = true
-license.workspace = true
-description.workspace = true
+name = "rppal-pfd"
+version = "0.0.1"
+authors = ["Mike Walmsley <mike@rivermix.uk>"]
+description = """PiFace Digital driver
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+An experimental driver for the PiFace Digital I/O expander for the 
+Raspberry Pi. Requires RPPAL for the GPIO and SPI interfaces.
+"""
+license = "MIT"
+edition = "2021"
+
+# Use the V2 resolver to avoid inappropriate merging of features.
+resolver = "2"
 
 [dependencies]
 log = "0.4.17"
-rppal-mcp23s17 = { path = "../../rppal-mcp23s17" }
+rppal-mcp23s17 = { path = "../rppal-mcp23s17" }
 rppal = "0.14.0"
 thiserror = "1.0.37"
 
 [dev-dependencies]
-rppal-mcp23s17 = { path = "../../rppal-mcp23s17", features = ["mockspi"] }
+rppal-mcp23s17 = { path = "../rppal-mcp23s17", features = ["mockspi"] }
