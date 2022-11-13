@@ -26,3 +26,10 @@ thiserror = "1.0.37"
 
 [dev-dependencies]
 rppal-mcp23s17 = { version = "0.0.1", features = ["mockspi"] }
+
+[features]
+
+# Use of this feature causes the crate to use a mock version of the interface to the 
+# SPI which is suited to running tests without needing the target Raspberry Pi
+# hardware. Also requires the rppal_mcp23s17 crate to support the mock SPI.
+mockspi = ["rppal-mcp23s17/mockspi"]

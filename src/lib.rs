@@ -9,12 +9,16 @@ use std::{
     time::Duration,
 };
 
-use log::{debug, error, info, log_enabled, Level::Debug};
-#[cfg(not(test))]
+#[cfg(not(any(test, feature = "mockspi")))]
 use log::warn;
-#[cfg(not(test))]
+use log::{debug, error, info, log_enabled, Level::Debug};
+#[cfg(not(any(test, feature = "mockspi")))]
 use rppal::gpio::{self, Gpio, Trigger};
+#[cfg(not(feature = "mockspi"))]
 use rppal_mcp23s17::{Mcp23s17, RegisterAddress, IOCON};
+#[cfg(feature = "mockspi")]
+pub use rppal_mcp23s17::{Mcp23s17, RegisterAddress, IOCON};
+
 use thiserror::Error;
 
 /// Re-export of `rppal_mcp23s17` crate APIs which we use on this crate's APIs.
@@ -160,9 +164,9 @@ pub struct InputPin {
 #[derive(Debug)]
 pub struct PiFaceDigitalState {
     mcp23s17: Mcp23s17,
-    #[cfg(not(test))]
+    #[cfg(not(any(test, feature = "mockspi")))]
     _gpio: Gpio,
-    #[cfg(not(test))]
+    #[cfg(not(any(test, feature = "mockspi")))]
     interrupt_pin: gpio::InputPin,
 }
 
@@ -223,9 +227,9 @@ impl PiFaceDigital {
         spi_mode: SpiMode,
     ) -> Result<Self> {
         let mcp23s17 = Mcp23s17::new(address.into(), spi_bus, chip_select, spi_clock, spi_mode)?;
-        #[cfg(test)]
+        #[cfg(any(test, feature = "mockspi"))]
         let pfd_state = PiFaceDigitalState { mcp23s17 };
-        #[cfg(not(test))]
+        #[cfg(not(any(test, feature = "mockspi")))]
         let pfd_state = {
             let gpio = Gpio::new()?;
             let interrupt_pin = gpio.get(25)?.into_input();
@@ -375,7 +379,7 @@ impl PiFaceDigital {
 
         // Enable the GPIO interrupts. The MCP23S17 should be in a state where all
         // interrupts are disabled so there shouldn't be an immediate trigger.
-        #[cfg(not(test))]
+        #[cfg(not(any(test, feature = "mockspi")))]
         self.pfd_state
             .borrow_mut()
             .interrupt_pin
@@ -558,7 +562,7 @@ impl PiFaceDigital {
     ///     }
     /// }
     /// ```
-    #[cfg(not(test))]
+    #[cfg(not(any(test, feature = "mockspi")))]
     pub fn poll_interrupts<'a>(
         &self,
         pins: &[&'a InputPin],
@@ -608,10 +612,79 @@ impl PiFaceDigital {
         }
     }
 
-    /// Dummy interrupt poll function for use in test environments.
+    /// Waits for interrupts across a set of InputPins.
     ///
-    /// Always returns as if a timeout occurred (even if timeout was "forever").
-    #[cfg(test)]
+    /// Blocks until an interrupt is raised and then returns a list of references to the
+    /// pin or pins that were the source. Note that it is possible that none of the
+    /// pins were actually the source of the error (though this is suspicious and will
+    /// cause a warning log) in which case the returned vector will be empty.
+    ///
+    /// Each interrupt is represented by a tuple of a reference to the pin and the level
+    /// on the pin when the interrupt happened.
+    ///
+    /// If the timeout expires the function will return [`None`].
+    ///
+    /// # Example usage
+    ///
+    /// ```no_run
+    /// use rppal_pfd::{ChipSelect, HardwareAddress, InterruptMode, PiFaceDigital, SpiBus, SpiMode};
+    /// use std::time::Duration;
+    ///
+    /// // Create an instance of the driver for the device with the hardware address
+    /// // (A1, A0) of 0b00 on SPI bus 0 clocked at 100kHz. The address bits are set using
+    /// // JP1 and JP2 on the PiFace Digital board.
+    /// let mut pfd = PiFaceDigital::new(
+    ///     HardwareAddress::new(0).expect("Invalid hardware address"),
+    ///     SpiBus::Spi0,
+    ///     ChipSelect::Cs0,
+    ///     100_000,
+    ///     SpiMode::Mode0,
+    /// )
+    /// .expect("Failed to create PiFace Digital");
+    ///
+    /// // Creating interrupt pin on the fourth switch on the PiFace Digital card.
+    /// let mut interrupt_pin1 = pfd.get_pull_up_input_pin(3).expect("Bad pin");
+    /// interrupt_pin1.set_interrupt(InterruptMode::BothEdges).expect("Bad interrupt");
+    ///
+    /// // Creating interrupt pin on the third switch on the PiFace Digital card.
+    /// let mut interrupt_pin2 = pfd.get_pull_up_input_pin(2).expect("Bad pin");
+    /// interrupt_pin2.set_interrupt(InterruptMode::BothEdges).expect("Bad interrupt");
+    ///
+    /// loop {
+    ///     // Wait one minute for a button press...
+    ///     match pfd.poll_interrupts(
+    ///         &[&interrupt_pin1, &interrupt_pin2],
+    ///         false,
+    ///         Some(Duration::from_secs(60)),
+    ///     ) {
+    ///         Ok(Some(interrupts)) => {
+    ///             // Button(s) were pressed!
+    ///             for (i, (pin, level)) in interrupts.iter().enumerate() {
+    ///                 let pin_no = pin.get_pin_number();
+    ///                 println!("Interrupt[{i}]: pin({pin_no}) is {level}");
+    ///             }
+    ///         }
+    ///
+    ///         Ok(None) => {
+    ///             println!("Poll timed out");
+    ///             break;
+    ///         }
+    ///
+    ///         Err(e) => {
+    ///             eprintln!("Poll failed with {e}");
+    ///             break;
+    ///         }
+    ///     }
+    /// }
+    /// ```
+    ///
+    /// # Testing
+    ///
+    /// Note that in testing environments or with the `mockspi` feature enabled, this
+    /// is replaced with a dummy interrupt poll function that always returns as if a
+    /// timeout occurred (even if specified timeout was "forever", which is frankly
+    /// wrong!)
+    #[cfg(any(test, feature = "mockspi"))]
     pub fn poll_interrupts<'a>(
         &self,
         pins: &[&'a InputPin],
@@ -647,15 +720,67 @@ impl PiFaceDigital {
         Ok(())
     }
 
-    // In testing environments provide an API to get access to the MockSpi.
-    #[cfg(test)]
-    fn get_mock_data(&self, register: RegisterAddress) -> (u8, usize, usize) {
+    /// In testing environments provide an API to get access to the mock SPI that
+    /// allows unit tests to be run without a real Raspberry Pi.
+    ///
+    /// Returns a tuple containing:
+    ///
+    /// - The current data in the mock SPI register `register`.
+    /// - The number of read accesses made to the register.
+    /// - The number of write accesses made to the register.
+    ///
+    /// ```
+    /// use rppal_pfd::{ChipSelect, HardwareAddress, Level, PiFaceDigital, RegisterAddress, SpiBus, SpiMode};
+    ///
+    /// let mut pfd = PiFaceDigital::new(
+    ///     HardwareAddress::new(0).unwrap(),
+    ///     SpiBus::Spi0,
+    ///     ChipSelect::Cs0,
+    ///     100_000,
+    ///     SpiMode::Mode0,
+    /// ).expect("Failed to construct!");
+    /// pfd.init().expect("Failed to initialise!");
+    ///
+    /// // The IOCON register gets set once and then read back by the initialise to
+    /// // test that there's actually some hardware connected. The 0x28 represents the
+    /// // default configuration.
+    /// assert_eq!(pfd.get_mock_data(RegisterAddress::IOCON),
+    ///     (0x28, 1, 1));
+    /// ```
+
+    #[cfg(any(test, feature = "mockspi"))]
+    pub fn get_mock_data(&self, register: RegisterAddress) -> (u8, usize, usize) {
         self.pfd_state.borrow().mcp23s17.get_mock_data(register)
     }
 
-    // In testing environments provide an API to get access to the MockSpi.
-    #[cfg(test)]
-    fn set_mock_data(&self, register: RegisterAddress, data: u8) {
+    /// In testing environments provide an API to get access to the mock SPI that
+    /// allows unit tests to be run without a real Raspberry Pi.
+    ///
+    /// ```
+    /// use rppal_pfd::{ChipSelect, HardwareAddress, Level, PiFaceDigital, RegisterAddress, SpiBus, SpiMode};
+    ///
+    /// let mut pfd = PiFaceDigital::new(
+    ///     HardwareAddress::new(0).unwrap(),
+    ///     SpiBus::Spi0,
+    ///     ChipSelect::Cs0,
+    ///     100_000,
+    ///     SpiMode::Mode0,
+    /// ).expect("Failed to construct!");
+    ///
+    /// pfd.set_mock_data(RegisterAddress::IOCON, 0x55);
+    /// assert_eq!(pfd.get_mock_data(RegisterAddress::IOCON),
+    ///     (0x55, 0, 0));
+    ///
+    /// pfd.init().expect("Failed to initialise!");
+    ///
+    /// // The IOCON register gets set once and then read back by the initialise to
+    /// // test that there's actually some hardware connected. The 0x28 represents the
+    /// // default configuration.
+    /// assert_eq!(pfd.get_mock_data(RegisterAddress::IOCON),
+    ///     (0x28, 1, 1));
+    /// ```
+    #[cfg(any(test, feature = "mockspi"))]
+    pub fn set_mock_data(&self, register: RegisterAddress, data: u8) {
         self.pfd_state
             .borrow()
             .mcp23s17
@@ -765,7 +890,7 @@ impl InputPin {
     ///     }     
     /// }
     ///
-    #[cfg(not(test))]
+    #[cfg(not(any(test, feature = "mockspi")))]
     pub fn poll_interrupt(
         &mut self,
         reset: bool,
@@ -816,7 +941,7 @@ impl InputPin {
     /// Dummy version of interrupt poll routine for use in testing environments.
     ///
     /// Immediately returns as if a timeout occurred.
-    #[cfg(test)]
+    #[cfg(any(test, feature = "mockspi"))]
     pub fn poll_interrupt(
         &mut self,
         _reset: bool,

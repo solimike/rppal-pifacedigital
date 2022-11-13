@@ -16,6 +16,10 @@ TARGET = "arm-unknown-linux-gnueabihf"      # First generation Raspberry Pi.
 
 [tasks.test]
 
+# Ensure we generate docs for testing by including the "mockspi" feature.
+[tasks.docs]
+args = ["doc", "--no-deps", "--features", "mockspi"]  
+
 [tasks.build-flow]
 
 # There is a potential problem with the RaspberryPi targets not being consistent because
