@@ -34,6 +34,21 @@ let pin = pfd
 pin.write(Level::Low).expect("Bad pin write");
 ```
 
+## Features
+
+The crate implements the following features.
+
+### mockspi
+
+The crate is compiled with all code that accesses the real Raspberry Pi hardware mocked
+out so that the code will compile and run successfully on non-Raspberry Pi hardware:
+
+- The PiFaceDigital code to access the GPIO (used for handling interrupts from the
+  MCP23S17) is entirely removed.
+- The MCP23S17 code from the `rppal_mcp23s17` crate uses a mock SPI that provides for
+  very simple setting of test data in the MCP23S17's registers and checking that the
+  expected reads and writes have been undertaken.
+
 ## Concurrency Warning
 
 Note that the `rppal_mcp23s17` contained in the [`PiFaceDigital`] is
