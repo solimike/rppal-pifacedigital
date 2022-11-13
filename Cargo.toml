@@ -1,6 +1,6 @@
 [package]
 name = "rppal-pfd"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["Mike Walmsley"]
 description = """PiFace Digital driver
 

@@ -8,6 +8,10 @@
 [env]
 TARGET = "arm-unknown-linux-gnueabihf"      # First generation Raspberry Pi.
 
+# These default tasks all build for the host platform (not the Raspberry Pi) so are
+# great for working on the overall structure and documentation etc, but can't be used
+# for building applications to run on the Raspberry Pi.
+# 
 # Note that the default "build" task enables all features so will use the "mockspi"
 # feature. This is probably what you want unless you're actually compiling natively on
 # Raspberry Pi hardware. If that's what you really want, uncomment the args override.
@@ -22,6 +26,9 @@ args = ["doc", "--no-deps", "--features", "mockspi"]
 
 [tasks.build-flow]
 
+# The following tasks are specifically for targetting the Raspberry Pi itself and all
+# use cross to cross compile and test the code.
+
 # There is a potential problem with the RaspberryPi targets not being consistent because
 # of an interaction between build scripts (build.rs) and the cross-compilation 
 # environment.  Currently (as of cross v0.2.4) the cross compilation environment is
@@ -33,10 +40,12 @@ args = ["doc", "--no-deps", "--features", "mockspi"]
 # script may depend on a glibc version too far ahead of the version in the container to
 # be compatible and therefore fail to run.  
 #
-# Two workarounds have some merit]
+# Two workarounds have some merit:
+#
 #   1) Build the RaspberryPi targets before the local host targets because the build 
 #      script compiled in the cross-compilation container will work with the more 
 #      recent glibc on the host machine.
+#
 #   2) Force a clean before running the RaspberryPi targets to remove the incompatible
 #      build script.
 #
