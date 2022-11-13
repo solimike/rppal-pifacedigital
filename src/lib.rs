@@ -1,5 +1,13 @@
 #![deny(missing_docs)]
 #![doc = include_str!("../README.md")]
+//!
+//! ## Extended example
+//!
+//! This example is available in `${CARGO_MANIFEST_DIR}/examples/blink-fast-slow.rs`.
+//!
+//! ``` rust no_run
+#![doc = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/examples/blink-fast-slow.rs"))]
+//! ```
 
 use std::{
     cell::RefCell,

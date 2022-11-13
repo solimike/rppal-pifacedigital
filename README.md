@@ -10,20 +10,22 @@ A driver for the PiFace Digital I/O expander for the
 
 ## Example usage
 
+See also the contents of the `${CARGO_MANIFEST_DIR}/examples` folder for more extensive examples.
+
 ``` rust no_run
 use rppal_pfd::{ChipSelect, HardwareAddress, Level, PiFaceDigital, SpiBus, SpiMode};
 
 // Create an instance of the driver for the device with the hardware address
 // (A1, A0) of 0b00 on SPI bus 0 clocked at 100kHz. The address bits are set using
 // `JP1` and `JP2` on the PiFace Digital board.
-let pfd = PiFaceDigital::new(
+let mut pfd = PiFaceDigital::new(
     HardwareAddress::new(0).expect("Invalid hardware address"),
     SpiBus::Spi0,
     ChipSelect::Cs0,
     100_000,
     SpiMode::Mode0,
-)
-.expect("Failed to create PiFace Digital");
+).expect("Failed to create PiFace Digital");
+pfd.init().expect("Failed to initialise PiFace Digital");
 
 // Take ownership of the output pin on bit 4 of the device.
 let pin = pfd
