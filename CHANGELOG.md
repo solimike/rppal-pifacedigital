@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 Note that this file is auto-generated from [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)
 formatted messages in the Git commit history.
 
+## [0.0.2] - 2022-11-14
+
+[4dd2cad](https://github.com/solimike/rppal-pifacedigital/commit/4dd2cadc414509f6186863f77454880a614e29d3)...[665babc](https://github.com/solimike/rppal-pifacedigital/commit/665babc6c1c6415d01de04feea4013afb34ee2e1)
+
+### Documentation
+
+- Basic badges. ([#2](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;2)) ([d07a4aa](https://github.com/solimike/rppal-pifacedigital/commit/d07a4aa0c6c4eb9f65002ed474ee4cf038a5d2cc))
+
+  Add some badges to the README so users get some idea of the status on crates.io _etc_. Until some CI is set up, 
+  the build badge remains a &quot;TODO&quot;.
+
+### Features
+
+- Add examples ([#4](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;4)) ([7e0da6d](https://github.com/solimike/rppal-pifacedigital/commit/7e0da6d18ec96e786820b43fa7d07ee5bbe50c1a))
+
+  Added some examples in the `examples` folder:
+  
+  - Blinking LED with interrupt handling.
+  - SPI bus speed and reliability test.
+
+### Testing
+
+- Feature flag `mockspi` ([#3](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;3)) ([efd2c31](https://github.com/solimike/rppal-pifacedigital/commit/efd2c319bc2afa0b374d8a1dd520d6ef0b96c9b9))
+
+  The `mockspi` feature enables testing without access to the Raspberry Pi hardware.
+
+- Basic CI workflow ([#5](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;5)) ([665babc](https://github.com/solimike/rppal-pifacedigital/commit/665babc6c1c6415d01de04feea4013afb34ee2e1))
+
+  Run a basic workflow to check the integrity of the repo on every push and PR.
+
 ## [0.0.1] - 2022-11-11
 
 ### Features
