@@ -5,9 +5,17 @@ All notable changes to this project will be documented in this file.
 Note that this file is auto-generated from [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)
 formatted messages in the Git commit history.
 
+## [0.0.3] - 2022-11-14
+
+[6a93a4b](https://github.com/solimike/rppal-pifacedigital/commit/6a93a4b96a502f4cd78a7082dad3b2d8a68c19f4)...[314e043](https://github.com/solimike/rppal-pifacedigital/commit/314e043a8665e6b2ca7fb89fc42ccfd6e7fed87a)
+
+### Miscellaneous Tasks
+
+- Relax dependency on `rppal_mcp23s17` crate. ([314e043](https://github.com/solimike/rppal-pifacedigital/commit/314e043a8665e6b2ca7fb89fc42ccfd6e7fed87a))
+
 ## [0.0.2] - 2022-11-14
 
-[4dd2cad](https://github.com/solimike/rppal-pifacedigital/commit/4dd2cadc414509f6186863f77454880a614e29d3)...[665babc](https://github.com/solimike/rppal-pifacedigital/commit/665babc6c1c6415d01de04feea4013afb34ee2e1)
+[4dd2cad](https://github.com/solimike/rppal-pifacedigital/commit/4dd2cadc414509f6186863f77454880a614e29d3)...[6a93a4b](https://github.com/solimike/rppal-pifacedigital/commit/6a93a4b96a502f4cd78a7082dad3b2d8a68c19f4)
 
 ### Documentation
 
