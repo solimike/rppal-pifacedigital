@@ -10,17 +10,14 @@
 // You will find that the resulting executable is using the mock-SPI version of the
 // rppal-mcp23s17 crate because the dev-dependencies in our Cargo.toml specify that in
 // order to be able to run our unit tests and cargo compile examples with dev
-// dependencies. Copy this code into a new project or temporarily comment out the 
+// dependencies. Copy this code into a new project or temporarily comment out the
 // dev-dependency on rppal-mcp23s17 and use the mainline dependency instead.
 
 use std::time::Instant;
 
 use anyhow::Result;
 use log::info;
-use rppal_pfd::{
-    ChipSelect, HardwareAddress, Level, PiFaceDigital, SpiBus, SpiMode,
-};
-
+use rppal_pfd::{ChipSelect, HardwareAddress, Level, PiFaceDigital, SpiBus, SpiMode};
 
 fn main() -> Result<()> {
     env_logger::init();
@@ -54,7 +51,9 @@ fn main() -> Result<()> {
             }
         }
         let time_taken = Instant::now() - start_time;
-        println!("Speed: {clock_speed}  Good: {good_count} Bad: {bad_count}  Duration: {time_taken:?}");
+        println!(
+            "Speed: {clock_speed}  Good: {good_count} Bad: {bad_count}  Duration: {time_taken:?}"
+        );
     }
 
     Ok(())
