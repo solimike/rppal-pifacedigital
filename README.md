@@ -3,7 +3,7 @@
 ![Crates.io](https://img.shields.io/crates/v/rppal-pfd)
 ![Crates.io](https://img.shields.io/crates/d/rppal-pfd)
 ![Crates.io](https://img.shields.io/crates/l/rppal-pfd)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/solimike/rppal-pifacedigital/todo)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/solimike/rppal-pifacedigital/CI)
 
 A driver for the PiFace Digital I/O expander for the
 [Raspberry Pi](https://www.raspberrypi.org/) which is accessed over an SPI bus.
