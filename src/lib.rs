@@ -21,7 +21,7 @@ use std::{
 use log::warn;
 use log::{debug, error, info, log_enabled, Level::Debug};
 #[cfg(not(any(test, feature = "mockspi")))]
-use rppal::gpio::{self, Gpio, Trigger};
+use rppal::gpio::{self, Gpio, Level as GpioLevel, Trigger};
 #[cfg(not(feature = "mockspi"))]
 use rppal_mcp23s17::{Mcp23s17, RegisterAddress, IOCON};
 #[cfg(feature = "mockspi")]
@@ -505,71 +505,9 @@ impl PiFaceDigital {
             .into_output_pin_high()?)
     }
 
-    /// Waits for interrupts across a set of InputPins.
-    ///
-    /// Blocks until an interrupt is raised and then returns a list of references to the
-    /// pin or pins that were the source. Note that it is possible that none of the
-    /// pins were actually the source of the error (though this is suspicious and will
-    /// cause a warning log) in which case the returned vector will be empty.
-    ///
-    /// Each interrupt is represented by a tuple of a reference to the pin and the level
-    /// on the pin when the interrupt happened.
-    ///
-    /// If the timeout expires the function will return [`None`].
-    ///
-    /// # Example usage
-    ///
-    /// ```no_run
-    /// use rppal_pfd::{ChipSelect, HardwareAddress, InterruptMode, PiFaceDigital, SpiBus, SpiMode};
-    /// use std::time::Duration;
-    ///
-    /// // Create an instance of the driver for the device with the hardware address
-    /// // (A1, A0) of 0b00 on SPI bus 0 clocked at 100kHz. The address bits are set using
-    /// // JP1 and JP2 on the PiFace Digital board.
-    /// let mut pfd = PiFaceDigital::new(
-    ///     HardwareAddress::new(0).expect("Invalid hardware address"),
-    ///     SpiBus::Spi0,
-    ///     ChipSelect::Cs0,
-    ///     100_000,
-    ///     SpiMode::Mode0,
-    /// )
-    /// .expect("Failed to create PiFace Digital");
-    ///
-    /// // Creating interrupt pin on the fourth switch on the PiFace Digital card.
-    /// let mut interrupt_pin1 = pfd.get_pull_up_input_pin(3).expect("Bad pin");
-    /// interrupt_pin1.set_interrupt(InterruptMode::BothEdges).expect("Bad interrupt");
-    ///
-    /// // Creating interrupt pin on the third switch on the PiFace Digital card.
-    /// let mut interrupt_pin2 = pfd.get_pull_up_input_pin(2).expect("Bad pin");
-    /// interrupt_pin2.set_interrupt(InterruptMode::BothEdges).expect("Bad interrupt");
-    ///
-    /// loop {
-    ///     // Wait one minute for a button press...
-    ///     match pfd.poll_interrupts(
-    ///         &[&interrupt_pin1, &interrupt_pin2],
-    ///         false,
-    ///         Some(Duration::from_secs(60)),
-    ///     ) {
-    ///         Ok(Some(interrupts)) => {
-    ///             // Button(s) were pressed!
-    ///             for (i, (pin, level)) in interrupts.iter().enumerate() {
-    ///                 let pin_no = pin.get_pin_number();
-    ///                 println!("Interrupt[{i}]: pin({pin_no}) is {level}");
-    ///             }
-    ///         }
-    ///
-    ///         Ok(None) => {
-    ///             println!("Poll timed out");
-    ///             break;
-    ///         }
-    ///
-    ///         Err(e) => {
-    ///             eprintln!("Poll failed with {e}");
-    ///             break;
-    ///         }
-    ///     }
-    /// }
-    /// ```
+    // Waits for interrupts across a set of InputPins (actual docs are included because
+    // two flavours of this function exist)
+    #[doc = include_str!("sync-interrupts.md")]
     #[cfg(not(any(test, feature = "mockspi")))]
     pub fn poll_interrupts<'a>(
         &self,
@@ -620,78 +558,9 @@ impl PiFaceDigital {
         }
     }
 
-    /// Waits for interrupts across a set of InputPins.
-    ///
-    /// Blocks until an interrupt is raised and then returns a list of references to the
-    /// pin or pins that were the source. Note that it is possible that none of the
-    /// pins were actually the source of the error (though this is suspicious and will
-    /// cause a warning log) in which case the returned vector will be empty.
-    ///
-    /// Each interrupt is represented by a tuple of a reference to the pin and the level
-    /// on the pin when the interrupt happened.
-    ///
-    /// If the timeout expires the function will return [`None`].
-    ///
-    /// # Example usage
-    ///
-    /// ```no_run
-    /// use rppal_pfd::{ChipSelect, HardwareAddress, InterruptMode, PiFaceDigital, SpiBus, SpiMode};
-    /// use std::time::Duration;
-    ///
-    /// // Create an instance of the driver for the device with the hardware address
-    /// // (A1, A0) of 0b00 on SPI bus 0 clocked at 100kHz. The address bits are set using
-    /// // JP1 and JP2 on the PiFace Digital board.
-    /// let mut pfd = PiFaceDigital::new(
-    ///     HardwareAddress::new(0).expect("Invalid hardware address"),
-    ///     SpiBus::Spi0,
-    ///     ChipSelect::Cs0,
-    ///     100_000,
-    ///     SpiMode::Mode0,
-    /// )
-    /// .expect("Failed to create PiFace Digital");
-    ///
-    /// // Creating interrupt pin on the fourth switch on the PiFace Digital card.
-    /// let mut interrupt_pin1 = pfd.get_pull_up_input_pin(3).expect("Bad pin");
-    /// interrupt_pin1.set_interrupt(InterruptMode::BothEdges).expect("Bad interrupt");
-    ///
-    /// // Creating interrupt pin on the third switch on the PiFace Digital card.
-    /// let mut interrupt_pin2 = pfd.get_pull_up_input_pin(2).expect("Bad pin");
-    /// interrupt_pin2.set_interrupt(InterruptMode::BothEdges).expect("Bad interrupt");
-    ///
-    /// loop {
-    ///     // Wait one minute for a button press...
-    ///     match pfd.poll_interrupts(
-    ///         &[&interrupt_pin1, &interrupt_pin2],
-    ///         false,
-    ///         Some(Duration::from_secs(60)),
-    ///     ) {
-    ///         Ok(Some(interrupts)) => {
-    ///             // Button(s) were pressed!
-    ///             for (i, (pin, level)) in interrupts.iter().enumerate() {
-    ///                 let pin_no = pin.get_pin_number();
-    ///                 println!("Interrupt[{i}]: pin({pin_no}) is {level}");
-    ///             }
-    ///         }
-    ///
-    ///         Ok(None) => {
-    ///             println!("Poll timed out");
-    ///             break;
-    ///         }
-    ///
-    ///         Err(e) => {
-    ///             eprintln!("Poll failed with {e}");
-    ///             break;
-    ///         }
-    ///     }
-    /// }
-    /// ```
-    ///
-    /// # Testing
-    ///
-    /// Note that in testing environments or with the `mockspi` feature enabled, this
-    /// is replaced with a dummy interrupt poll function that always returns as if a
-    /// timeout occurred (even if specified timeout was "forever", which is frankly
-    /// wrong!)
+    // Dummy ("mockspi") version of synchronous interrupt poll (actual docs are included
+    // because two flavours of this function exist).
+    #[doc = include_str!("sync-interrupts.md")]
     #[cfg(any(test, feature = "mockspi"))]
     pub fn poll_interrupts<'a>(
         &self,
@@ -711,6 +580,69 @@ impl PiFaceDigital {
         Ok(None)
     }
 
+    // Asynchronous interrupt poll (actual docs are include because two flavours of this
+    // function exist).
+    #[doc = include_str!("async-interrupts.md")]
+    #[cfg(not(any(test, feature = "mockspi")))]
+    pub fn subscribe_async_interrupts<C: FnMut(GpioLevel) + Send + 'static>(
+        &mut self,
+        callback: C,
+    ) -> Result<()> {
+        self.pfd_state
+            .borrow_mut()
+            .interrupt_pin
+            .set_async_interrupt(Trigger::FallingEdge, callback)?;
+        Ok(())
+    }
+
+    // Dummy ("mockspi") version of asynchronous interrupt poll (actual docs are included
+    // because two flavours of this function exist).
+    #[doc = include_str!("async-interrupts.md")]
+    #[cfg(any(test, feature = "mockspi"))]
+    pub fn subscribe_async_interrupts<C: FnMut(bool) + Send + 'static>(
+        &mut self,
+        _callback: C,
+    ) -> Result<()> {
+        let mut _pfd_state = self.pfd_state.borrow_mut();
+        Ok(())
+    }
+
+    /// Clear the registered callback for interrupt notifications.
+    #[cfg(not(any(test, feature = "mockspi")))]
+    pub fn clear_async_interrupts(&mut self) -> Result<()> {
+        self.pfd_state
+            .borrow_mut()
+            .interrupt_pin
+            .clear_async_interrupt()?;
+        Ok(())
+    }
+
+    /// Register a callback for interrupt notifications.
+    #[cfg(any(test, feature = "mockspi"))]
+    pub fn clear_async_interrupts(&mut self) -> Result<()> {
+        let _pfd_state = self.pfd_state.borrow_mut();
+        Ok(())
+    }
+
+    /// Access the Interrupt Capture register for the input port.
+    pub fn get_interrupt_capture(&self) -> Result<u8> {
+        let data = self
+            .pfd_state
+            .borrow()
+            .mcp23s17
+            .read(RegisterAddress::INTCAPB)?;
+        Ok(data)
+    }
+
+    /// Access the Interrupt Capture register for the input port.
+    pub fn get_interrupt_flags(&self) -> Result<u8> {
+        let data = self
+            .pfd_state
+            .borrow()
+            .mcp23s17
+            .read(RegisterAddress::INTFB)?;
+        Ok(data)
+    }
     /// Generate a debug log containing the state of the MCP23S17.
     ///
     /// If logging at `Debug` level, log the values currently in the MCP23S17's
