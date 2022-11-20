@@ -3,6 +3,15 @@ Waits for interrupts across a set of InputPins in a separate thread
 Spawns a separate thread that then blocks until an interrupt is raised and then calls
 the supplied callback.
 
+The provided callback is called with a single parameter `level` that represents the
+level on the _Raspberry Pi's GPIO_ input pin (not the MCP23S17). As the interrupts are
+active-low, this will always be `GpioLevel::Low` for the real code. The parameter is
+replaced with a dummy `bool` when the **mockspi** feature is enabled as the GPIO code
+cannot be guaranteed to compile in non-target environments so the feature-flag causes it
+to be skipped. Since this parameter is unlikely to be of interest, it will normally be
+an anonymous placeholder (_i.e._ `|_|`) and so will compile equally well with or without
+the **mockspi** feature.
+
 Note that a potential to deadlock exists if there is already an interrupt raised by the
 hardware when the async interrupts are enabled: the GPIO won't raise an interrupt as it
 will not see the High-Low transition but nothing will clear the existing interrupt.
