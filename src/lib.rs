@@ -728,6 +728,25 @@ impl PiFaceDigital {
     }
 }
 
+impl Default for PiFaceDigital {
+    /// Creates a default PiFaceDigital that:
+    /// 
+    /// - Is at hardware address `0`
+    /// - On SPI bus `Spi0`
+    /// - Uses chip-select `Cs0`
+    /// - Is clocked at 100kHz
+    /// - Uses SPI mode 0
+    fn default() -> Self {
+        PiFaceDigital::new(
+            HardwareAddress::new(0).unwrap(),
+            SpiBus::Spi0,
+            ChipSelect::Cs0,
+            100_000,
+            SpiMode::Mode0,
+        ).expect("Failed to create default PiFaceDigital")
+    }
+}
+
 impl InputPin {
     /// Reads the pin's logic level.
     #[inline]
