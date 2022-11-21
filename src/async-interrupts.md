@@ -1,3 +1,5 @@
+<!-- This file is included as a documentation comment in lib.rs -->
+
 Waits for interrupts across a set of InputPins in a separate thread
 
 Spawns a separate thread that then blocks until an interrupt is raised and then calls

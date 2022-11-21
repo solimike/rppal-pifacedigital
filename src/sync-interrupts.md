@@ -1,3 +1,5 @@
+<!-- This file is included as a documentation comment in lib.rs -->
+
 Waits for interrupts across a set of InputPins.
 
 Blocks until an interrupt is raised and then returns a list of references to the
