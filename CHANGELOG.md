@@ -5,9 +5,20 @@ All notable changes to this project will be documented in this file.
 Note that this file is auto-generated from [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)
 formatted messages in the Git commit history.
 
+## [0.0.4] - 2023-01-20
+
+[c29ceef](https://github.com/solimike/rppal-pifacedigital/commit/c29ceefda262ba88d2546ac18a70a5d4a9a7df4c)...[b23fdf0](https://github.com/solimike/rppal-pifacedigital/commit/b23fdf0c653f91a0779b1a810613eb6bc48daa02)
+
+### Fix
+
+- Fixed the build status badge. ([#6](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;6)) ([b23fdf0](https://github.com/solimike/rppal-pifacedigital/commit/b23fdf0c653f91a0779b1a810613eb6bc48daa02))
+
+  Broken by breaking change.
+  See: https:&#x2F;&#x2F;github.com&#x2F;badges&#x2F;shields&#x2F;issues&#x2F;8671
+
 ## [0.0.3] - 2022-11-14
 
-[6a93a4b](https://github.com/solimike/rppal-pifacedigital/commit/6a93a4b96a502f4cd78a7082dad3b2d8a68c19f4)...[314e043](https://github.com/solimike/rppal-pifacedigital/commit/314e043a8665e6b2ca7fb89fc42ccfd6e7fed87a)
+[6a93a4b](https://github.com/solimike/rppal-pifacedigital/commit/6a93a4b96a502f4cd78a7082dad3b2d8a68c19f4)...[c29ceef](https://github.com/solimike/rppal-pifacedigital/commit/c29ceefda262ba88d2546ac18a70a5d4a9a7df4c)
 
 ### Miscellaneous Tasks
 
