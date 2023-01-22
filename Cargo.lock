@@ -147,7 +147,7 @@ dependencies = [
 
 [[package]]
 name = "rppal-pfd"
-version = "0.0.4"
+version = "0.0.5"
 dependencies = [
  "anyhow",
  "env_logger",

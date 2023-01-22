@@ -5,9 +5,20 @@ All notable changes to this project will be documented in this file.
 Note that this file is auto-generated from [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)
 formatted messages in the Git commit history.
 
+## [0.0.5] - 2023-01-22
+
+[5549d05](https://github.com/solimike/rppal-pifacedigital/commit/5549d051bac5b2b48ce6dfc7e4aac7a7f70ce3d4)...[cadfa78](https://github.com/solimike/rppal-pifacedigital/commit/cadfa78bfb03062dd5a520b6b8313d2a160f6f26)
+
+### Features
+
+- Async interrupts ([#7](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;7)) ([cadfa78](https://github.com/solimike/rppal-pifacedigital/commit/cadfa78bfb03062dd5a520b6b8313d2a160f6f26))
+
+  Support async interrupts: when an interrupt occurs, the specified callback or closure
+  gets invoked from its own thread.
+
 ## [0.0.4] - 2023-01-20
 
-[c29ceef](https://github.com/solimike/rppal-pifacedigital/commit/c29ceefda262ba88d2546ac18a70a5d4a9a7df4c)...[b23fdf0](https://github.com/solimike/rppal-pifacedigital/commit/b23fdf0c653f91a0779b1a810613eb6bc48daa02)
+[c29ceef](https://github.com/solimike/rppal-pifacedigital/commit/c29ceefda262ba88d2546ac18a70a5d4a9a7df4c)...[5549d05](https://github.com/solimike/rppal-pifacedigital/commit/5549d051bac5b2b48ce6dfc7e4aac7a7f70ce3d4)
 
 ### Fix
 
