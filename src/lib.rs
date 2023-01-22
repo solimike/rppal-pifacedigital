@@ -580,7 +580,7 @@ impl PiFaceDigital {
         Ok(None)
     }
 
-    // Asynchronous interrupt poll (actual docs are include because two flavours of this
+    // Asynchronous interrupt poll (actual docs are included because two flavours of this
     // function exist).
     #[doc = include_str!("async-interrupts.md")]
     #[cfg(not(any(test, feature = "mockspi")))]
@@ -730,7 +730,7 @@ impl PiFaceDigital {
 
 impl Default for PiFaceDigital {
     /// Creates a default PiFaceDigital that:
-    /// 
+    ///
     /// - Is at hardware address `0`
     /// - On SPI bus `Spi0`
     /// - Uses chip-select `Cs0`
@@ -743,7 +743,8 @@ impl Default for PiFaceDigital {
             ChipSelect::Cs0,
             100_000,
             SpiMode::Mode0,
-        ).expect("Failed to create default PiFaceDigital")
+        )
+        .expect("Failed to create default PiFaceDigital")
     }
 }
 
