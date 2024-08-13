@@ -21,7 +21,7 @@ resolver = "2"
 [dependencies]
 log = "0.4.17"
 rppal-mcp23s17 = "0.0"
-rppal = "0.14.0"
+rppal = "0.18.0"
 thiserror = "1.0.37"
 
 [dev-dependencies]
