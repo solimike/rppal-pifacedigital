@@ -20,16 +20,16 @@ resolver = "2"
 
 [dependencies]
 log = "0.4.17"
-rppal-mcp23s17 = { path = "../rppal-mcp23s17", version = "0.1" }
+# rppal-mcp23s17 = { path = "../rppal-mcp23s17" }
+rppal-mcp23s17 = { version = "0.1" }
 rppal = "0.19.0"
 thiserror = "1.0.37"
 
 [dev-dependencies]
 anyhow = "1.0.66"
 env_logger = "0.11.3"
-rppal-mcp23s17 = { path = "../rppal-mcp23s17", features = [
-    "mockspi",
-], version = "0.1" }
+# rppal-mcp23s17 = { path = "../rppal-mcp23s17", features = ["mockspi"] }
+rppal-mcp23s17 = { features = ["mockspi"], version = "0.1" }
 
 [features]
 
