@@ -5,9 +5,32 @@ All notable changes to this project will be documented in this file.
 Note that this file is auto-generated from [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)
 formatted messages in the Git commit history.
 
+## [0.1.0] - 2024-08-19
+
+[b02f0ca](https://github.com/solimike/rppal-pifacedigital/commit/b02f0ca114a4fb168c3bf333ff7f8bab7ea4b736)...[fb663f5](https://github.com/solimike/rppal-pifacedigital/commit/fb663f580dcd1d9459f4afff70737d8c4dbf9de5)
+
+### Features
+
+- Support Raspberry Pi 5. ([c005210](https://github.com/solimike/rppal-pifacedigital/commit/c0052105f002e3342b9e39e5e054fd62c47945d5))
+
+  Support added by bumping dependency on RPPAL.
+
+- Improved API stability expectations. ([fb663f5](https://github.com/solimike/rppal-pifacedigital/commit/fb663f580dcd1d9459f4afff70737d8c4dbf9de5))
+
+  This crate has worked with very few issues
+  for many months. V0.1 recognises
+  the expectation that there will not be many
+  breaking changes in the future.
+
+### Miscellaneous Tasks
+
+- Bump dependency on RPPAL to V0.19. ([509464b](https://github.com/solimike/rppal-pifacedigital/commit/509464bae82873d8125b9c1c9269cebff96262ae))
+
+  Some minor API breakages but none that break our API.
+
 ## [0.0.5] - 2023-01-22
 
-[5549d05](https://github.com/solimike/rppal-pifacedigital/commit/5549d051bac5b2b48ce6dfc7e4aac7a7f70ce3d4)...[cadfa78](https://github.com/solimike/rppal-pifacedigital/commit/cadfa78bfb03062dd5a520b6b8313d2a160f6f26)
+[5549d05](https://github.com/solimike/rppal-pifacedigital/commit/5549d051bac5b2b48ce6dfc7e4aac7a7f70ce3d4)...[b02f0ca](https://github.com/solimike/rppal-pifacedigital/commit/b02f0ca114a4fb168c3bf333ff7f8bab7ea4b736)
 
 ### Features
 
