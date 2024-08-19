@@ -21,7 +21,7 @@ use std::{
 use log::warn;
 use log::{debug, error, info, log_enabled, Level::Debug};
 #[cfg(not(any(test, feature = "mockspi")))]
-use rppal::gpio::{self, Gpio, Level as GpioLevel, Trigger};
+use rppal::gpio::{self, Event as GpioEvent, Gpio, Trigger};
 #[cfg(not(feature = "mockspi"))]
 use rppal_mcp23s17::{Mcp23s17, RegisterAddress, IOCON};
 #[cfg(feature = "mockspi")]
@@ -391,7 +391,7 @@ impl PiFaceDigital {
         self.pfd_state
             .borrow_mut()
             .interrupt_pin
-            .set_interrupt(Trigger::FallingEdge)?;
+            .set_interrupt(Trigger::FallingEdge, None)?;
 
         Ok(())
     }
@@ -584,14 +584,14 @@ impl PiFaceDigital {
     // function exist).
     #[doc = include_str!("async-interrupts.md")]
     #[cfg(not(any(test, feature = "mockspi")))]
-    pub fn subscribe_async_interrupts<C: FnMut(GpioLevel) + Send + 'static>(
+    pub fn subscribe_async_interrupts<C: FnMut(GpioEvent) + Send + 'static>(
         &mut self,
         callback: C,
     ) -> Result<()> {
         self.pfd_state
             .borrow_mut()
             .interrupt_pin
-            .set_async_interrupt(Trigger::FallingEdge, callback)?;
+            .set_async_interrupt(Trigger::FallingEdge, None, callback)?;
         Ok(())
     }
 
