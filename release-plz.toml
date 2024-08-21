@@ -1,0 +1,11 @@
+[workspace]
+allow_dirty = false 
+changelog_config = "cliff.toml" 
+changelog_update = true 
+dependencies_update = true 
+git_release_enable = true 
+pr_labels = ["release"] 
+publish = false
+publish_allow_dirty = false 
+semver_check = true 
+publish_timeout = "10m" 
