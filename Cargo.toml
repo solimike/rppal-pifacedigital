@@ -19,7 +19,7 @@ edition = "2021"
 resolver = "2"
 
 [dependencies]
-log = "0.4.17"
+log = "0.4.25"
 rppal-mcp23s17 = "0.1"
 rppal = "0.22.1"
 thiserror = "2.0.11"
