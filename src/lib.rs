@@ -19,13 +19,13 @@ use std::{
 
 #[cfg(not(any(test, feature = "mockspi")))]
 use log::warn;
-use log::{debug, error, info, log_enabled, Level::Debug};
+use log::{Level::Debug, debug, error, info, log_enabled};
 #[cfg(not(any(test, feature = "mockspi")))]
 use rppal::gpio::{self, Event as GpioEvent, Gpio, Trigger};
 #[cfg(not(feature = "mockspi"))]
-use rppal_mcp23s17::{Mcp23s17, RegisterAddress, IOCON};
+use rppal_mcp23s17::{IOCON, Mcp23s17, RegisterAddress};
 #[cfg(feature = "mockspi")]
-pub use rppal_mcp23s17::{Mcp23s17, RegisterAddress, IOCON};
+pub use rppal_mcp23s17::{IOCON, Mcp23s17, RegisterAddress};
 
 use thiserror::Error;
 
