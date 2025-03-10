@@ -27,7 +27,7 @@ thiserror = "2.0.11"
 
 [dev-dependencies]
 anyhow = "1.0.96"
-env_logger = "0.11.6"
+env_logger = "0.11.7"
 rppal-mcp23s17 = { features = ["mockspi"], version = "0.1" }
 
 [features]
