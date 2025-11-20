@@ -51,15 +51,15 @@ args = ["doc", "--no-deps", "--features", "mockspi"]
 #
 # This looks like being a short-term problem because the next version of cross should
 # bump the base version of Ubuntu to 20.04.
-[tasks.rpi]
+[tasks.build_rpi]
 command = "cross"
 args = ["build", "--target", "${TARGET}"]
 
-[tasks.build-rpi]
+[tasks.release_rpi]
 command = "cross" 
 args = ["build", "--release", "--target", "${TARGET}"]
 
-[tasks.test-rpi]
+[tasks.test_rpi]
 command = "cross"
 args = ["test", "--target", "${TARGET}"]
 
@@ -69,3 +69,29 @@ command = "git"
 args = ["cliff", 
 		"--tag", "v${CARGO_MAKE_CRATE_VERSION}", 
 		"--output", "CHANGELOG.md"]
+	
+[tasks.update_dependencies]
+workspace = false
+script = [
+			"cargo update",
+			"cargo outdated --exit-code=1",
+]
+
+[tasks.semver_checks]
+workspace = false
+script = [
+			"cargo semver-checks --target ${TARGET}",
+]
+
+[tasks.prepare_commit]
+workspace = false
+dependencies = [
+					"clean",
+					"update_dependencies",
+					"format",
+					"clippy",
+					"test_rpi",
+					"release_rpi",
+					"semver_checks",
+					"changelog",
+]
