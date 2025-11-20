@@ -13,7 +13,8 @@ homepage = "https://docs.rs/rppal-pfd/"
 repository = "https://github.com/solimike/rppal-pifacedigital/"
 keywords = ["PiFaceDigital", "Raspberry", "Raspberry_Pi", "MCP23S17", "RPPAL"]
 categories = ["hardware-support", "embedded"]
-edition = "2021"
+edition = "2024"
+rust-version = "1.85"
 
 # Use the V2 resolver to avoid inappropriate merging of features.
 resolver = "2"
