@@ -1,6 +1,6 @@
 [package]
 name = "rppal-pfd"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Mike Walmsley"]
 description = """PiFace Digital driver
 
@@ -21,8 +21,8 @@ resolver = "2"
 [dependencies]
 log = "0.4.17"
 rppal-mcp23s17 = "0.1"
-rppal = "0.19.0"
-thiserror = "1.0.37"
+rppal = "0.22.0"
+thiserror = "2.0"
 
 [dev-dependencies]
 anyhow = "1.0.66"
