@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rust: [stable, beta, nightly]
+        rust: [1.85.0, stable, beta, nightly]
         # os: [ubuntu-latest, windows-latest, macOS-latest]
         os: [ubuntu-latest]
     steps:
@@ -22,10 +22,7 @@ jobs:
         profile: minimal
         override: true
     - name: Install cargo-make
-      uses: actions-rs/cargo@v1
-      with:
-        command: install
-        args: --debug cargo-make
+      uses: davidB/rust-cargo-make@v1
     - name: Run CI
       if: matrix.rust != 'nightly'
       uses: actions-rs/cargo@v1

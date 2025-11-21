@@ -14,7 +14,7 @@ repository = "https://github.com/solimike/rppal-pifacedigital/"
 keywords = ["PiFaceDigital", "Raspberry", "Raspberry_Pi", "MCP23S17", "RPPAL"]
 categories = ["hardware-support", "embedded"]
 edition = "2024"
-rust-version = "1.85"
+rust-version = "1.85"   # If bumping MSRV, update ci.yml to reflect new version too.
 
 # Use the V2 resolver to avoid inappropriate merging of features.
 resolver = "2"
