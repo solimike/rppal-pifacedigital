@@ -10,14 +10,16 @@ on:
       - main
 
 jobs:
-  release-plz:
-    name: Release-plz
+  release-plz-pr:
+    name: Release-plz PR
     runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'solimike' }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
+          persist-credentials: false
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
       - name: Run release-plz
