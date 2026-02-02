@@ -11,7 +11,7 @@
 
 use std::{
     cell::RefCell,
-    fmt::{self, Write},
+    fmt::{self, Display},
     rc::Rc,
     result,
     time::Duration,
@@ -19,7 +19,7 @@ use std::{
 
 #[cfg(not(any(test, feature = "mockspi")))]
 use log::warn;
-use log::{Level::Debug, debug, error, info, log_enabled};
+use log::{Level::Debug, debug, info, log_enabled};
 #[cfg(not(any(test, feature = "mockspi")))]
 use rppal::gpio::{self, Event as GpioEvent, Gpio, Trigger};
 #[cfg(not(feature = "mockspi"))]
@@ -223,6 +223,20 @@ pub struct PiFaceDigitalState {
 #[derive(Debug)]
 pub struct PiFaceDigital {
     pfd_state: Rc<RefCell<PiFaceDigitalState>>,
+}
+
+impl Display for PiFaceDigital {
+    /// Generate a human readable display of the state.
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        for register in 0..RegisterAddress::LENGTH {
+            let register_address = RegisterAddress::try_from(register).unwrap();
+            match self.pfd_state.borrow().mcp23s17.read(register_address) {
+                Ok(data) => writeln!(f, "{:10} : 0x{:02x}", register_address, data)?,
+                Err(e) => writeln!(f, "{:10} : {}", register_address, e)?,
+            }
+        }
+        Ok(())
+    }
 }
 
 impl PiFaceDigital {
@@ -643,19 +657,14 @@ impl PiFaceDigital {
             .read(RegisterAddress::INTFB)?;
         Ok(data)
     }
+
     /// Generate a debug log containing the state of the MCP23S17.
     ///
     /// If logging at `Debug` level, log the values currently in the MCP23S17's
     /// registers, otherwise does nothing.
     pub fn debug_current_state(&self, context: &str) -> Result<()> {
         if log_enabled!(Debug) {
-            let mut state = String::new();
-            for register in 0..RegisterAddress::LENGTH {
-                let register_address = RegisterAddress::try_from(register).unwrap();
-                let data = self.pfd_state.borrow().mcp23s17.read(register_address)?;
-                writeln!(state, "{:10} : 0x{:02x}", register_address, data).unwrap();
-            }
-            debug!("{context}\n{state}");
+            debug!("{}\n{}", context, self.to_string());
         }
         Ok(())
     }
