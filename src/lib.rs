@@ -949,6 +949,48 @@ mod test {
     use super::*;
 
     #[test]
+    fn pfd_display() {
+        let mut pfd = PiFaceDigital::new(
+            HardwareAddress::new(0).unwrap(),
+            SpiBus::Spi0,
+            ChipSelect::Cs0,
+            100_000,
+            SpiMode::Mode0,
+        )
+        .expect("Failed to create PFD");
+        pfd.init().expect("Failed to initialise PFD");
+
+        assert_eq!(
+            pfd.to_string(),
+            r"IODIRA     : 0x00
+IODIRB     : 0xff
+IPOLA      : 0x00
+IPOLB      : 0x00
+GPINTENA   : 0x00
+GPINTENB   : 0x00
+DEFVALA    : 0x00
+DEFVALB    : 0x00
+INTCONA    : 0x00
+INTCONB    : 0x00
+IOCON      : 0x28
+IOCON (2)  : 0x00
+GPPUA      : 0x00
+GPPUB      : 0xff
+INTFA      : 0x00
+INTFB      : 0x00
+INTCAPA    : 0x00
+INTCAPB    : 0x00
+GPIOA      : 0x00
+GPIOB      : 0x00
+OLATA      : 0x00
+OLATB      : 0x00
+"
+            .to_string(),
+            "Bad display format"
+        );
+    }
+
+    #[test]
     fn pfd_input_pin_poll_interrupt() {
         let mut pfd = PiFaceDigital::new(
             HardwareAddress::new(0).unwrap(),
