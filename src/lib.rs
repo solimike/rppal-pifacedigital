@@ -19,7 +19,7 @@ use std::{
 
 #[cfg(not(any(test, feature = "mockspi")))]
 use log::warn;
-use log::{Level::Debug, debug, info, log_enabled};
+use log::{debug, info};
 #[cfg(not(any(test, feature = "mockspi")))]
 use rppal::gpio::{self, Event as GpioEvent, Gpio, Trigger};
 #[cfg(not(feature = "mockspi"))]
@@ -357,8 +357,7 @@ impl PiFaceDigital {
         }
 
         // Log debug info about the current register state.
-        debug!("Uninitialised MCP23S17 state");
-        self.debug_current_state("Uninitialised MCP23S17 state:")?;
+        debug!("Uninitialised MCP23S17 state:\n{self}");
 
         const RESET_REGISTER_STATES: [(RegisterAddress, Option<u8>); RegisterAddress::LENGTH] = [
             (RegisterAddress::IODIRA, Some(0x00)),
@@ -396,8 +395,7 @@ impl PiFaceDigital {
         }
 
         // Log debug info about the updated register state.
-        debug!("Initialised MCP23S17 state");
-        self.debug_current_state("Initialised MCP23S17 state:")?;
+        debug!("Initialised MCP23S17 state:\n{self}");
 
         // Enable the GPIO interrupts. The MCP23S17 should be in a state where all
         // interrupts are disabled so there shouldn't be an immediate trigger.
@@ -662,6 +660,10 @@ impl PiFaceDigital {
     ///
     /// If logging at `Debug` level, log the values currently in the MCP23S17's
     /// registers, otherwise does nothing.
+    #[deprecated(
+        since = "0.1.2",
+        note = "use the Display trait which the the PiFaceDigital now implements and is more idiomatic"
+    )]
     pub fn debug_current_state(&self, context: &str) -> Result<()> {
         debug!("{context}\n{self}");
         Ok(())
