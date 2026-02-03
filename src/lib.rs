@@ -663,9 +663,7 @@ impl PiFaceDigital {
     /// If logging at `Debug` level, log the values currently in the MCP23S17's
     /// registers, otherwise does nothing.
     pub fn debug_current_state(&self, context: &str) -> Result<()> {
-        if log_enabled!(Debug) {
-            debug!("{}\n{}", context, self.to_string());
-        }
+        debug!("{context}\n{self}");
         Ok(())
     }
 
