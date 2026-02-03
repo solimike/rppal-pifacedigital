@@ -11,7 +11,7 @@
 
 use std::{
     cell::RefCell,
-    fmt::{self, Write},
+    fmt::{self, Display},
     rc::Rc,
     result,
     time::Duration,
@@ -19,7 +19,7 @@ use std::{
 
 #[cfg(not(any(test, feature = "mockspi")))]
 use log::warn;
-use log::{Level::Debug, debug, error, info, log_enabled};
+use log::{debug, info};
 #[cfg(not(any(test, feature = "mockspi")))]
 use rppal::gpio::{self, Event as GpioEvent, Gpio, Trigger};
 #[cfg(not(feature = "mockspi"))]
@@ -225,6 +225,20 @@ pub struct PiFaceDigital {
     pfd_state: Rc<RefCell<PiFaceDigitalState>>,
 }
 
+impl Display for PiFaceDigital {
+    /// Generate a human readable display of the state.
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        for register in 0..RegisterAddress::LENGTH {
+            let register_address = RegisterAddress::try_from(register).unwrap();
+            match self.pfd_state.borrow().mcp23s17.read(register_address) {
+                Ok(data) => writeln!(f, "{:10} : 0x{:02x}", register_address, data)?,
+                Err(e) => writeln!(f, "{:10} : {}", register_address, e)?,
+            }
+        }
+        Ok(())
+    }
+}
+
 impl PiFaceDigital {
     /// Create a PiFace Digital instance.
     pub fn new(
@@ -343,8 +357,7 @@ impl PiFaceDigital {
         }
 
         // Log debug info about the current register state.
-        debug!("Uninitialised MCP23S17 state");
-        self.debug_current_state("Uninitialised MCP23S17 state:")?;
+        debug!("Uninitialised MCP23S17 state:\n{self}");
 
         const RESET_REGISTER_STATES: [(RegisterAddress, Option<u8>); RegisterAddress::LENGTH] = [
             (RegisterAddress::IODIRA, Some(0x00)),
@@ -382,8 +395,7 @@ impl PiFaceDigital {
         }
 
         // Log debug info about the updated register state.
-        debug!("Initialised MCP23S17 state");
-        self.debug_current_state("Initialised MCP23S17 state:")?;
+        debug!("Initialised MCP23S17 state:\n{self}");
 
         // Enable the GPIO interrupts. The MCP23S17 should be in a state where all
         // interrupts are disabled so there shouldn't be an immediate trigger.
@@ -643,20 +655,17 @@ impl PiFaceDigital {
             .read(RegisterAddress::INTFB)?;
         Ok(data)
     }
+
     /// Generate a debug log containing the state of the MCP23S17.
     ///
     /// If logging at `Debug` level, log the values currently in the MCP23S17's
     /// registers, otherwise does nothing.
+    #[deprecated(
+        since = "0.1.2",
+        note = "use the Display trait which the the PiFaceDigital now implements and is more idiomatic"
+    )]
     pub fn debug_current_state(&self, context: &str) -> Result<()> {
-        if log_enabled!(Debug) {
-            let mut state = String::new();
-            for register in 0..RegisterAddress::LENGTH {
-                let register_address = RegisterAddress::try_from(register).unwrap();
-                let data = self.pfd_state.borrow().mcp23s17.read(register_address)?;
-                writeln!(state, "{:10} : 0x{:02x}", register_address, data).unwrap();
-            }
-            debug!("{context}\n{state}");
-        }
+        debug!("{context}\n{self}");
         Ok(())
     }
 
@@ -938,6 +947,48 @@ impl Drop for InputPin {
 #[cfg(test)]
 mod test {
     use super::*;
+
+    #[test]
+    fn pfd_display() {
+        let mut pfd = PiFaceDigital::new(
+            HardwareAddress::new(0).unwrap(),
+            SpiBus::Spi0,
+            ChipSelect::Cs0,
+            100_000,
+            SpiMode::Mode0,
+        )
+        .expect("Failed to create PFD");
+        pfd.init().expect("Failed to initialise PFD");
+
+        assert_eq!(
+            pfd.to_string(),
+            r"IODIRA     : 0x00
+IODIRB     : 0xff
+IPOLA      : 0x00
+IPOLB      : 0x00
+GPINTENA   : 0x00
+GPINTENB   : 0x00
+DEFVALA    : 0x00
+DEFVALB    : 0x00
+INTCONA    : 0x00
+INTCONB    : 0x00
+IOCON      : 0x28
+IOCON (2)  : 0x00
+GPPUA      : 0x00
+GPPUB      : 0xff
+INTFA      : 0x00
+INTFB      : 0x00
+INTCAPA    : 0x00
+INTCAPB    : 0x00
+GPIOA      : 0x00
+GPIOB      : 0x00
+OLATA      : 0x00
+OLATB      : 0x00
+"
+            .to_string(),
+            "Bad display format"
+        );
+    }
 
     #[test]
     fn pfd_input_pin_poll_interrupt() {
