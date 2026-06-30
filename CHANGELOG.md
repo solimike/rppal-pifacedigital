@@ -5,6 +5,100 @@ All notable changes to this project will be documented in this file.
 Note that this file is auto-generated from [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/)
 formatted messages in the Git commit history.
 
+## [0.1.4] - 2026-06-30
+
+### Miscellaneous Tasks
+
+- Bump log from 0.4.29 to 0.4.31 ([#69](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;69)) ([9ac089b](https://github.com/solimike/rppal-pifacedigital/commit/9ac089b4ba4223f046ae528180b49a370db47b07)), Signed-off-by:dependabot[bot] <support@github.com>, Co-authored-by:dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+  Bumps [log](https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;log) from 0.4.29 to 0.4.31.
+  - [Release notes](https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;log&#x2F;releases)
+  - [Changelog](https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;log&#x2F;blob&#x2F;master&#x2F;CHANGELOG.md)
+  - [Commits](https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;log&#x2F;compare&#x2F;0.4.29...0.4.31)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: log
+    dependency-version: 0.4.31
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+
+- Bump actions&#x2F;checkout from 6 to 7 ([#73](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;73)) ([d085f38](https://github.com/solimike/rppal-pifacedigital/commit/d085f38fa6b065ae8e261a0a7badeb960bcd78d6)), Signed-off-by:dependabot[bot] <support@github.com>, Co-authored-by:dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+  Bumps [actions&#x2F;checkout](https:&#x2F;&#x2F;github.com&#x2F;actions&#x2F;checkout) from 6 to 7.
+  - [Release notes](https:&#x2F;&#x2F;github.com&#x2F;actions&#x2F;checkout&#x2F;releases)
+  - [Changelog](https:&#x2F;&#x2F;github.com&#x2F;actions&#x2F;checkout&#x2F;blob&#x2F;main&#x2F;CHANGELOG.md)
+  - [Commits](https:&#x2F;&#x2F;github.com&#x2F;actions&#x2F;checkout&#x2F;compare&#x2F;v6...v7)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: actions&#x2F;checkout
+    dependency-version: &#x27;7&#x27;
+    dependency-type: direct:production
+    update-type: version-update:semver-major
+  ...
+
+- Bump log from 0.4.31 to 0.4.33 ([#74](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;74)) ([2889f10](https://github.com/solimike/rppal-pifacedigital/commit/2889f10a50cd3f6b70e1b7ad0462d2e21d5a3420)), Signed-off-by:dependabot[bot] <support@github.com>, Co-authored-by:dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+  Bumps [log](https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;log) from 0.4.31 to 0.4.33.
+  - [Release notes](https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;log&#x2F;releases)
+  - [Changelog](https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;log&#x2F;blob&#x2F;master&#x2F;CHANGELOG.md)
+  - [Commits](https:&#x2F;&#x2F;github.com&#x2F;rust-lang&#x2F;log&#x2F;compare&#x2F;0.4.31...0.4.33)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: log
+    dependency-version: 0.4.33
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+
+- Bump env_logger from 0.11.10 to 0.11.11 ([#75](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;75)) ([7e5cd59](https://github.com/solimike/rppal-pifacedigital/commit/7e5cd5967e853303f6c5a6974449d2b01b20a129)), Signed-off-by:dependabot[bot] <support@github.com>, Co-authored-by:dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+  Bumps [env_logger](https:&#x2F;&#x2F;github.com&#x2F;rust-cli&#x2F;env_logger) from 0.11.10 to 0.11.11.
+  - [Release notes](https:&#x2F;&#x2F;github.com&#x2F;rust-cli&#x2F;env_logger&#x2F;releases)
+  - [Changelog](https:&#x2F;&#x2F;github.com&#x2F;rust-cli&#x2F;env_logger&#x2F;blob&#x2F;main&#x2F;CHANGELOG.md)
+  - [Commits](https:&#x2F;&#x2F;github.com&#x2F;rust-cli&#x2F;env_logger&#x2F;compare&#x2F;v0.11.10...v0.11.11)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: env_logger
+    dependency-version: 0.11.11
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+
+- Bump anyhow from 1.0.102 to 1.0.103 ([#76](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;76)) ([a64bc71](https://github.com/solimike/rppal-pifacedigital/commit/a64bc7142acb2a32687c58af90538655144f76f1)), Signed-off-by:dependabot[bot] <support@github.com>, Co-authored-by:dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+  Bumps [anyhow](https:&#x2F;&#x2F;github.com&#x2F;dtolnay&#x2F;anyhow) from 1.0.102 to 1.0.103.
+  - [Release notes](https:&#x2F;&#x2F;github.com&#x2F;dtolnay&#x2F;anyhow&#x2F;releases)
+  - [Commits](https:&#x2F;&#x2F;github.com&#x2F;dtolnay&#x2F;anyhow&#x2F;compare&#x2F;1.0.102...1.0.103)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: anyhow
+    dependency-version: 1.0.103
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+
+- Bump rppal-mcp23s17 from 0.1.2 to 0.1.4 ([#71](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-pifacedigital&#x2F;issues&#x2F;71)) ([e556a6d](https://github.com/solimike/rppal-pifacedigital/commit/e556a6d9b93316094a873f2320742b84d7092d34)), Signed-off-by:dependabot[bot] <support@github.com>, Co-authored-by:dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+  Bumps [rppal-mcp23s17](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-mcp23s17) from 0.1.2 to 0.1.4.
+  - [Changelog](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-mcp23s17&#x2F;blob&#x2F;main&#x2F;CHANGELOG.md)
+  - [Commits](https:&#x2F;&#x2F;github.com&#x2F;solimike&#x2F;rppal-mcp23s17&#x2F;compare&#x2F;v0.1.2...v0.1.4)
+  
+  ---
+  updated-dependencies:
+  - dependency-name: rppal-mcp23s17
+    dependency-version: 0.1.3
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+
+<!-- generated by git-cliff -->
+
 ## [0.1.3] - 2026-04-24
 
 ### Miscellaneous Tasks
