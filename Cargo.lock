@@ -69,9 +69,9 @@ checksum = "2a4385e2e34eb35d6b3efe798b9eb88096925d87726c0798709bf56d9ed84af3"
 
 [[package]]
 name = "bitflags"
-version = "2.11.1"
+version = "2.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c4512299f36f043ab09a583e57bceb5a5aab7a73db1805848e8fef3c9e8c78b3"
+checksum = "b4388bee8683e3d04af747c73422af53102d2bd24d9eadb6cbc100baef4b43f8"
 
 [[package]]
 name = "colorchoice"
@@ -229,9 +229,9 @@ dependencies = [
 
 [[package]]
 name = "rppal-mcp23s17"
-version = "0.1.2"
+version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ada7119cf67b4d1d041d26dcfe9232441b746db26cd1299c45ab91e20851fa68"
+checksum = "c49add43473ad872223a644eda069c47b8cb8e5d8a9c23d92eb77cb29e6a6057"
 dependencies = [
  "bitflags",
  "log",
