@@ -290,9 +290,9 @@ dependencies = [
 
 [[package]]
 name = "rppal-mcp23s17"
-version = "0.1.4"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c49add43473ad872223a644eda069c47b8cb8e5d8a9c23d92eb77cb29e6a6057"
+checksum = "06ba5f18e3dd76b706acad2c541b0e464c26b868f9566c65285f135b8471b370"
 dependencies = [
  "bitflags 2.13.0",
  "log",
